@@ -4,28 +4,28 @@ import PokemonCard from './pokemon-card.jsx';
 class PokemonList extends React.Component {
   constructor() {
     super();
-    this.state = { pokemonIds: [] };
+    this.state = { spriteIds: [] };
   }
 
   componentWillMount() {
-    this.setState({ pokemonIds: makeRandomArr(6) });
+    this.setState({ spriteIds: makeRandomArr(6) });
   }
 
   render() {
     let pokemonCards = null;
 
-    if (this.state.pokemonIds.length) {
-      pokemonCards = this.state.pokemonIds.map((pokemonId, index) => {
+    if (this.state.spriteIds.length) {
+      pokemonCards = this.state.spriteIds.map((spriteId, index) => {
         return (
           <div className="column" key={index}>
-            <PokemonCard pokemonId={pokemonId} />
+            <PokemonCard spriteId={spriteId} />
           </div>
         )
       });
     }
 
     return (
-      <div className="ui three column grid">
+      <div className="ui three stackable cards">
         {pokemonCards}
       </div>
     )

@@ -19681,32 +19681,32 @@
 	    _classCallCheck(this, PokemonList);
 	
 	    _get(Object.getPrototypeOf(PokemonList.prototype), 'constructor', this).call(this);
-	    this.state = { pokemonIds: [] };
+	    this.state = { spriteIds: [] };
 	  }
 	
 	  _createClass(PokemonList, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      this.setState({ pokemonIds: makeRandomArr(6) });
+	      this.setState({ spriteIds: makeRandomArr(6) });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var pokemonCards = null;
 	
-	      if (this.state.pokemonIds.length) {
-	        pokemonCards = this.state.pokemonIds.map(function (pokemonId, index) {
+	      if (this.state.spriteIds.length) {
+	        pokemonCards = this.state.spriteIds.map(function (spriteId, index) {
 	          return _react2['default'].createElement(
 	            'div',
 	            { className: 'column', key: index },
-	            _react2['default'].createElement(_pokemonCardJsx2['default'], { pokemonId: pokemonId })
+	            _react2['default'].createElement(_pokemonCardJsx2['default'], { spriteId: spriteId })
 	          );
 	        });
 	      }
 	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui three column grid' },
+	        { className: 'ui three stackable cards' },
 	        pokemonCards
 	      );
 	    }
@@ -19777,7 +19777,7 @@
 	    _classCallCheck(this, PokemonCard);
 	
 	    _get(Object.getPrototypeOf(PokemonCard.prototype), 'constructor', this).call(this);
-	    this.state = { battlesFought: 0, fainted: false, pokemon: {} };
+	    this.state = { battlesFought: 0, fainted: false, pokemon: {}, imageUrl: '' };
 	  }
 	
 	  _createClass(PokemonCard, [{
@@ -19786,15 +19786,14 @@
 	      var _this = this;
 	
 	      var baseUrl = 'http://pokeapi.co';
-	      var pokemonPromise = _axios2['default'].get(baseUrl + '/api/v1/pokemon/' + this.props.pokemonId);
-	      var imagePromise = _axios2['default'].get(baseUrl + '/api/v1/sprite/' + this.props.pokemonId);
 	
-	      _axios2['default'].all([pokemonPromise, imagePromise]).then(_axios2['default'].spread(function (pokemonResponse, imageResponse) {
-	        _this.setState({
-	          pokemon: pokemonResponse.data,
-	          imageUrl: baseUrl + imageResponse.data.image
+	      _axios2['default'].get(baseUrl + '/api/v1/sprite/' + this.props.spriteId).then(function (imageResponse) {
+	        _this.setState({ imageUrl: baseUrl + imageResponse.data.image });
+	
+	        _axios2['default'].get(baseUrl + imageResponse.data.pokemon.resource_uri).then(function (pokemonResponse) {
+	          _this.setState({ pokemon: pokemonResponse.data });
 	        });
-	      }));
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -19808,7 +19807,7 @@
 	      } else {
 	        return _react2['default'].createElement(
 	          'div',
-	          { className: 'fluid ui card' },
+	          { className: 'ui card' },
 	          _react2['default'].createElement(
 	            'div',
 	            { className: 'image' },
