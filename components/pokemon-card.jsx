@@ -8,12 +8,17 @@ class PokemonCard extends React.Component {
   }
 
   componentWillMount() {
-    console.log('yo');
-    const url = 'http://pokeapi.co/api/v1/pokemon/';
+    const baseUrl = 'http://pokeapi.co';
+    let pokemonPromise =  axios.get(`${baseUrl}/api/v1/pokemon/${this.props.pokemonId}`);
+    let imagePromise = axios.get(`${baseUrl}/api/v1/sprite/${this.props.pokemonId}`);
 
-    axios.get(url + this.props.pokemonId).then(response => {
-      this.setState({ pokemon: response.data })
-    });
+    axios.all([pokemonPromise, imagePromise])
+    .then(axios.spread((pokemonResponse, imageResponse) => {
+      this.setState({
+        pokemon: pokemonResponse.data,
+        imageUrl: baseUrl + imageResponse.data.image
+      })
+    }));
   }
 
   render() {
@@ -23,7 +28,7 @@ class PokemonCard extends React.Component {
       return (
         <div className="fluid ui card">
           <div className="image">
-            <img src="http://lorempixel.com/100/100"/>
+            <img src={this.state.imageUrl}/>
           </div>
           <div className="content">
             <div className="header">{this.state.pokemon.name}</div>
