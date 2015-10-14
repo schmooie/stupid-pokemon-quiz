@@ -1,52 +1,34 @@
 import React from 'react';
-import axios from 'axios';
+import PokemonCard from './pokemon-card.jsx';
 
 class PokemonList extends React.Component {
   constructor() {
     super();
-    this.state = { pokemon: {} };
+    this.state = { pokemonIds: [] };
   }
 
   componentWillMount() {
-    this.getRandomPokemon(6);
+    this.setState({ pokemonIds: makeRandomArr(6) });
   }
 
   render() {
-    let pokemon = null;
-    let pokemonIds = Object.keys(this.state.pokemon);
+    let pokemonCards = null;
 
-    if (pokemonIds.length) {
-      // debugger;
-      pokemon = pokemonIds.map(id => {
-        return <li key={id}>{this.state.pokemon[id].name}</li>;
+    if (this.state.pokemonIds.length) {
+      pokemonCards = this.state.pokemonIds.map((pokemonId, index) => {
+        return (
+          <div className="column" key={index}>
+            <PokemonCard pokemonId={pokemonId} />
+          </div>
+        )
       });
     }
 
     return (
-      <ul>{pokemon}</ul>
+      <div className="ui three column grid">
+        {pokemonCards}
+      </div>
     )
-  }
-
-  getRandomPokemon(num) {
-    console.log('fetch');
-    let arrIds = makeRandomArr(num);
-    let pokemonRequests = arrIds.map(id => this.fetchPokemon(id));
-
-    axios.all(pokemonRequests).then(pokemon => {
-      let pokemonObj = {};
-
-      pokemon.forEach(monster => {
-        pokemonObj[monster.data.national_id] = monster.data;
-      });
-
-      this.setState({ pokemon: pokemonObj });
-    });
-  }
-
-  fetchPokemon(id) {
-    const url = 'http://pokeapi.co/api/v1/pokemon/'
-
-    return axios.get(url + id);
   }
 }
 
@@ -64,4 +46,5 @@ function makeRandomArr(num, min = 1, max = 151) {
 
   return res;
 }
+
 export default PokemonList;

@@ -82,8 +82,12 @@
 	    value: function render() {
 	      return _react2['default'].createElement(
 	        'div',
-	        null,
-	        _react2['default'].createElement(_componentsPokemonListJsx2['default'], null)
+	        { className: 'ui two column grid' },
+	        _react2['default'].createElement(
+	          'div',
+	          { className: 'column' },
+	          _react2['default'].createElement(_componentsPokemonListJsx2['default'], null)
+	        )
 	      );
 	    }
 	  }]);
@@ -19666,9 +19670,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _axios = __webpack_require__(159);
+	var _pokemonCardJsx = __webpack_require__(159);
 	
-	var _axios2 = _interopRequireDefault(_axios);
+	var _pokemonCardJsx2 = _interopRequireDefault(_pokemonCardJsx);
 	
 	var PokemonList = (function (_React$Component) {
 	  _inherits(PokemonList, _React$Component);
@@ -19677,66 +19681,34 @@
 	    _classCallCheck(this, PokemonList);
 	
 	    _get(Object.getPrototypeOf(PokemonList.prototype), 'constructor', this).call(this);
-	    this.state = { pokemon: {} };
+	    this.state = { pokemonIds: [] };
 	  }
 	
 	  _createClass(PokemonList, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      this.getRandomPokemon(6);
+	      this.setState({ pokemonIds: makeRandomArr(6) });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this = this;
+	      var pokemonCards = null;
 	
-	      var pokemon = null;
-	      var pokemonIds = Object.keys(this.state.pokemon);
-	
-	      if (pokemonIds.length) {
-	        // debugger;
-	        pokemon = pokemonIds.map(function (id) {
+	      if (this.state.pokemonIds.length) {
+	        pokemonCards = this.state.pokemonIds.map(function (pokemonId, index) {
 	          return _react2['default'].createElement(
-	            'li',
-	            { key: id },
-	            _this.state.pokemon[id].name
+	            'div',
+	            { className: 'column', key: index },
+	            _react2['default'].createElement(_pokemonCardJsx2['default'], { pokemonId: pokemonId })
 	          );
 	        });
 	      }
 	
 	      return _react2['default'].createElement(
-	        'ul',
-	        null,
-	        pokemon
+	        'div',
+	        { className: 'ui three column grid' },
+	        pokemonCards
 	      );
-	    }
-	  }, {
-	    key: 'getRandomPokemon',
-	    value: function getRandomPokemon(num) {
-	      var _this2 = this;
-	
-	      console.log('fetch');
-	      var arrIds = makeRandomArr(num);
-	      var pokemonRequests = arrIds.map(function (id) {
-	        return _this2.fetchPokemon(id);
-	      });
-	
-	      _axios2['default'].all(pokemonRequests).then(function (pokemon) {
-	        var pokemonObj = {};
-	
-	        pokemon.forEach(function (monster) {
-	          pokemonObj[monster.data.national_id] = monster.data;
-	        });
-	
-	        _this2.setState({ pokemon: pokemonObj });
-	      });
-	    }
-	  }, {
-	    key: 'fetchPokemon',
-	    value: function fetchPokemon(id) {
-	      var url = 'http://pokeapi.co/api/v1/pokemon/';
-	
-	      return _axios2['default'].get(url + id);
 	    }
 	  }]);
 	
@@ -19766,6 +19738,7 @@
 	
 	  return res;
 	}
+	
 	exports['default'] = PokemonList;
 	module.exports = exports['default'];
 
@@ -19773,18 +19746,106 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(160);
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _axios = __webpack_require__(160);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var PokemonCard = (function (_React$Component) {
+	  _inherits(PokemonCard, _React$Component);
+	
+	  function PokemonCard() {
+	    _classCallCheck(this, PokemonCard);
+	
+	    _get(Object.getPrototypeOf(PokemonCard.prototype), 'constructor', this).call(this);
+	    this.state = { battlesFought: 0, fainted: false, pokemon: {} };
+	  }
+	
+	  _createClass(PokemonCard, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var _this = this;
+	
+	      console.log('yo');
+	      var url = 'http://pokeapi.co/api/v1/pokemon/';
+	
+	      _axios2['default'].get(url + this.props.pokemonId).then(function (response) {
+	        _this.setState({ pokemon: response.data });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (!Object.keys(this.state.pokemon).length) {
+	        return _react2['default'].createElement(
+	          'h1',
+	          null,
+	          'Loading...'
+	        );
+	      } else {
+	        return _react2['default'].createElement(
+	          'div',
+	          { className: 'fluid ui card' },
+	          _react2['default'].createElement(
+	            'div',
+	            { className: 'image' },
+	            _react2['default'].createElement('img', { src: 'http://lorempixel.com/100/100' })
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            { className: 'content' },
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'header' },
+	              this.state.pokemon.name
+	            )
+	          )
+	        );
+	      }
+	    }
+	  }]);
+	
+	  return PokemonCard;
+	})(_react2['default'].Component);
+	
+	exports['default'] = PokemonCard;
+	module.exports = exports['default'];
 
 /***/ },
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(161);
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
-	var defaults = __webpack_require__(161);
-	var utils = __webpack_require__(162);
-	var dispatchRequest = __webpack_require__(163);
-	var InterceptorManager = __webpack_require__(170);
+	var defaults = __webpack_require__(162);
+	var utils = __webpack_require__(163);
+	var dispatchRequest = __webpack_require__(164);
+	var InterceptorManager = __webpack_require__(171);
 	
 	var axios = module.exports = function (config) {
 	  // Allow for axios('example/url'[, config]) a la fetch API
@@ -19831,7 +19892,7 @@
 	axios.all = function (promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(171);
+	axios.spread = __webpack_require__(172);
 	
 	// Expose interceptors
 	axios.interceptors = {
@@ -19870,12 +19931,12 @@
 
 
 /***/ },
-/* 161 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(163);
 	
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -19938,7 +19999,7 @@
 
 
 /***/ },
-/* 162 */
+/* 163 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20193,7 +20254,7 @@
 
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -20210,11 +20271,11 @@
 	    try {
 	      // For browsers use XHR adapter
 	      if ((typeof XMLHttpRequest !== 'undefined') || (typeof ActiveXObject !== 'undefined')) {
-	        __webpack_require__(164)(resolve, reject, config);
+	        __webpack_require__(165)(resolve, reject, config);
 	      }
 	      // For node use HTTP adapter
 	      else if (typeof process !== 'undefined') {
-	        __webpack_require__(164)(resolve, reject, config);
+	        __webpack_require__(165)(resolve, reject, config);
 	      }
 	    } catch (e) {
 	      reject(e);
@@ -20226,18 +20287,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	/*global ActiveXObject:true*/
 	
-	var defaults = __webpack_require__(161);
-	var utils = __webpack_require__(162);
-	var buildUrl = __webpack_require__(165);
-	var parseHeaders = __webpack_require__(166);
-	var transformData = __webpack_require__(167);
+	var defaults = __webpack_require__(162);
+	var utils = __webpack_require__(163);
+	var buildUrl = __webpack_require__(166);
+	var parseHeaders = __webpack_require__(167);
+	var transformData = __webpack_require__(168);
 	
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  // Transform request data
@@ -20297,8 +20358,8 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(168);
-	    var urlIsSameOrigin = __webpack_require__(169);
+	    var cookies = __webpack_require__(169);
+	    var urlIsSameOrigin = __webpack_require__(170);
 	
 	    // Add xsrf header
 	    var xsrfValue = urlIsSameOrigin(config.url) ?
@@ -20348,12 +20409,12 @@
 
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(163);
 	
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -20413,12 +20474,12 @@
 
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(163);
 	
 	/**
 	 * Parse headers into an object
@@ -20453,12 +20514,12 @@
 
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(163);
 	
 	/**
 	 * Transform the data for a request or a response
@@ -20478,7 +20539,7 @@
 
 
 /***/ },
-/* 168 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20489,7 +20550,7 @@
 	 *  Please see lib/utils.isStandardBrowserEnv before including this file.
 	 */
 	
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(163);
 	
 	module.exports = {
 	  write: function write(name, value, expires, path, domain, secure) {
@@ -20527,7 +20588,7 @@
 
 
 /***/ },
-/* 169 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20538,7 +20599,7 @@
 	 *  Please see lib/utils.isStandardBrowserEnv before including this file.
 	 */
 	
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(163);
 	var msie = /(msie|trident)/i.test(navigator.userAgent);
 	var urlParsingNode = document.createElement('a');
 	var originUrl;
@@ -20591,12 +20652,12 @@
 
 
 /***/ },
-/* 170 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(162);
+	var utils = __webpack_require__(163);
 	
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -20649,7 +20710,7 @@
 
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports) {
 
 	'use strict';
