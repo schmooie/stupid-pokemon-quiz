@@ -17,15 +17,13 @@ class PokemonList extends React.Component {
     if (this.state.spriteIds.length) {
       pokemonCards = this.state.spriteIds.map((spriteId, index) => {
         return (
-          <div className="column" key={index}>
-            <PokemonCard spriteId={spriteId} />
-          </div>
+          <PokemonCard key={index} spriteId={spriteId} />
         )
       });
     }
 
     return (
-      <div className="ui three stackable cards">
+      <div className="ui grid three columns stackable link cards">
         {pokemonCards}
       </div>
     )

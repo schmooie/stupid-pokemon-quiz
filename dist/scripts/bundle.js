@@ -82,11 +82,15 @@
 	    value: function render() {
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui two column grid' },
+	        { className: 'ui padded grid' },
 	        _react2['default'].createElement(
 	          'div',
-	          { className: 'column' },
-	          _react2['default'].createElement(_componentsPokemonListJsx2['default'], null)
+	          { className: 'two column row' },
+	          _react2['default'].createElement(
+	            'div',
+	            { className: 'column' },
+	            _react2['default'].createElement(_componentsPokemonListJsx2['default'], null)
+	          )
 	        )
 	      );
 	    }
@@ -19696,17 +19700,13 @@
 	
 	      if (this.state.spriteIds.length) {
 	        pokemonCards = this.state.spriteIds.map(function (spriteId, index) {
-	          return _react2['default'].createElement(
-	            'div',
-	            { className: 'column', key: index },
-	            _react2['default'].createElement(_pokemonCardJsx2['default'], { spriteId: spriteId })
-	          );
+	          return _react2['default'].createElement(_pokemonCardJsx2['default'], { key: index, spriteId: spriteId });
 	        });
 	      }
 	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui three stackable cards' },
+	        { className: 'ui grid three columns stackable link cards' },
 	        pokemonCards
 	      );
 	    }
@@ -19798,32 +19798,24 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      if (!Object.keys(this.state.pokemon).length) {
-	        return _react2['default'].createElement(
-	          'h1',
-	          null,
-	          'Loading...'
-	        );
-	      } else {
-	        return _react2['default'].createElement(
+	      return _react2['default'].createElement(
+	        'div',
+	        { className: 'ui card' },
+	        _react2['default'].createElement(
 	          'div',
-	          { className: 'ui card' },
+	          { className: 'image' },
+	          _react2['default'].createElement('img', { src: this.state.imageUrl })
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { className: 'content' },
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'image' },
-	            _react2['default'].createElement('img', { src: this.state.imageUrl })
-	          ),
-	          _react2['default'].createElement(
-	            'div',
-	            { className: 'content' },
-	            _react2['default'].createElement(
-	              'div',
-	              { className: 'header' },
-	              this.state.pokemon.name
-	            )
+	            { className: 'header' },
+	            this.state.pokemon.name
 	          )
-	        );
-	      }
+	        )
+	      );
 	    }
 	  }]);
 	

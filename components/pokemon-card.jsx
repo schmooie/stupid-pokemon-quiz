@@ -22,20 +22,16 @@ class PokemonCard extends React.Component {
   }
 
   render() {
-    if (!Object.keys(this.state.pokemon).length) {
-      return <h1>Loading...</h1>
-    } else {
-      return (
-        <div className="ui card">
-          <div className="image">
-            <img src={this.state.imageUrl}/>
-          </div>
-          <div className="content">
-            <div className="header">{this.state.pokemon.name}</div>
-          </div>
+    return (
+      <div className="ui card">
+        <div className="image">
+          <img src={this.state.imageUrl}/>
         </div>
-      )
-    }
+        <div className="content">
+          <div className="header">{this.state.pokemon.name}</div>
+        </div>
+      </div>
+    )
   }
 }
 
