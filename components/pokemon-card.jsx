@@ -1,16 +1,22 @@
 import React from 'react';
 import axios from 'axios';
+import classNames from 'classnames';
 
 class PokemonCard extends React.Component {
   constructor() {
     super();
-    this.state = { battlesFought: 0, fainted: false, pokemon: {}, imageUrl: '' };
+    this.state = {
+      pokemon: {},
+      imageUrl: '',
+      battlesFought: 0,
+      fainted: false
+    };
   }
 
   componentWillMount() {
     const baseUrl = 'http://pokeapi.co';
 
-    axios.get(`${baseUrl}/api/v1/sprite/${this.props.spriteId}`)
+    axios.get(`${baseUrl}/api/v1/sprite/${this.props.pokemon.spriteId}`)
     .then(imageResponse => {
       this.setState({ imageUrl: baseUrl + imageResponse.data.image });
 
@@ -21,9 +27,17 @@ class PokemonCard extends React.Component {
     });
   }
 
+  onClick(e) {
+    e.preventDefault();
+
+    this.props.selectPokemon(this.props.pokemon);
+  }
+
   render() {
+    let classes = classNames('pokemon-card ui card', { active: this.props.pokemon.isSelected });
+
     return (
-      <div className="ui card">
+      <div className={classes} onClick={this.onClick.bind(this)}>
         <div className="image">
           <img src={this.state.imageUrl}/>
         </div>

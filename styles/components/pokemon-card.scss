@@ -1,0 +1,10 @@
+.ui.link.cards .ui.card {
+  &.pokemon-card:hover {
+    border: 1px solid blue;
+  }
+}
+.pokemon-card.ui.card {
+  &.active {
+    border: 2px solid blue;
+  }
+}

@@ -68,18 +68,28 @@
 	
 	var _componentsPokemonListJsx2 = _interopRequireDefault(_componentsPokemonListJsx);
 	
+	__webpack_require__(174);
+	
 	var App = (function (_React$Component) {
 	  _inherits(App, _React$Component);
 	
 	  function App() {
 	    _classCallCheck(this, App);
 	
-	    _get(Object.getPrototypeOf(App.prototype), 'constructor', this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(App.prototype), 'constructor', this).call(this);
+	    this.state = { currentPokemon: null };
 	  }
 	
 	  _createClass(App, [{
+	    key: 'selectPokemon',
+	    value: function selectPokemon(pokemon) {
+	      this.setState({ currentPokemon: pokemon });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var selectPokemon = this.selectPokemon.bind(this);
+	
 	      return _react2['default'].createElement(
 	        'div',
 	        { className: 'ui padded grid' },
@@ -89,7 +99,7 @@
 	          _react2['default'].createElement(
 	            'div',
 	            { className: 'column' },
-	            _react2['default'].createElement(_componentsPokemonListJsx2['default'], null)
+	            _react2['default'].createElement(_componentsPokemonListJsx2['default'], { selectPokemon: selectPokemon })
 	          )
 	        )
 	      );
@@ -19685,22 +19695,40 @@
 	    _classCallCheck(this, PokemonList);
 	
 	    _get(Object.getPrototypeOf(PokemonList.prototype), 'constructor', this).call(this);
-	    this.state = { spriteIds: [] };
+	    this.state = { pokemons: [] };
 	  }
 	
 	  _createClass(PokemonList, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      this.setState({ spriteIds: makeRandomArr(6) });
+	      var pokemons = makeRandomArr(6).map(function (spriteId) {
+	        return { isSelected: false, spriteId: spriteId };
+	      });
+	      this.setState({ pokemons: pokemons });
+	    }
+	  }, {
+	    key: 'selectPokemon',
+	    value: function selectPokemon(selectedPokemon) {
+	      var pokemons = this.state.pokemons.map(function (pokemon) {
+	        return {
+	          spriteId: pokemon.spriteId,
+	          isSelected: pokemon.spriteId === selectedPokemon.spriteId ? true : false
+	        };
+	      });
+	
+	      this.setState({ pokemons: pokemons });
+	      this.props.selectPokemon(selectedPokemon);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this = this;
+	
 	      var pokemonCards = null;
 	
-	      if (this.state.spriteIds.length) {
-	        pokemonCards = this.state.spriteIds.map(function (spriteId, index) {
-	          return _react2['default'].createElement(_pokemonCardJsx2['default'], { key: index, spriteId: spriteId });
+	      if (this.state.pokemons.length) {
+	        pokemonCards = this.state.pokemons.map(function (pokemon, index) {
+	          return _react2['default'].createElement(_pokemonCardJsx2['default'], { key: index, pokemon: pokemon, selectPokemon: _this.selectPokemon.bind(_this) });
 	        });
 	      }
 	
@@ -19770,6 +19798,10 @@
 	
 	var _axios2 = _interopRequireDefault(_axios);
 	
+	var _classnames = __webpack_require__(173);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
 	var PokemonCard = (function (_React$Component) {
 	  _inherits(PokemonCard, _React$Component);
 	
@@ -19777,7 +19809,12 @@
 	    _classCallCheck(this, PokemonCard);
 	
 	    _get(Object.getPrototypeOf(PokemonCard.prototype), 'constructor', this).call(this);
-	    this.state = { battlesFought: 0, fainted: false, pokemon: {}, imageUrl: '' };
+	    this.state = {
+	      pokemon: {},
+	      imageUrl: '',
+	      battlesFought: 0,
+	      fainted: false
+	    };
 	  }
 	
 	  _createClass(PokemonCard, [{
@@ -19787,7 +19824,7 @@
 	
 	      var baseUrl = 'http://pokeapi.co';
 	
-	      _axios2['default'].get(baseUrl + '/api/v1/sprite/' + this.props.spriteId).then(function (imageResponse) {
+	      _axios2['default'].get(baseUrl + '/api/v1/sprite/' + this.props.pokemon.spriteId).then(function (imageResponse) {
 	        _this.setState({ imageUrl: baseUrl + imageResponse.data.image });
 	
 	        _axios2['default'].get(baseUrl + imageResponse.data.pokemon.resource_uri).then(function (pokemonResponse) {
@@ -19796,11 +19833,20 @@
 	      });
 	    }
 	  }, {
+	    key: 'onClick',
+	    value: function onClick(e) {
+	      e.preventDefault();
+	
+	      this.props.selectPokemon(this.props.pokemon);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var classes = (0, _classnames2['default'])('pokemon-card ui card', { active: this.props.pokemon.isSelected });
+	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui card' },
+	        { className: classes, onClick: this.onClick.bind(this) },
 	        _react2['default'].createElement(
 	          'div',
 	          { className: 'image' },
@@ -20735,6 +20781,381 @@
 	    return callback.apply(null, arr);
 	  };
 	};
+
+
+/***/ },
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+	
+	(function () {
+		'use strict';
+	
+		var hasOwn = {}.hasOwnProperty;
+	
+		function classNames () {
+			var classes = '';
+	
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+	
+				var argType = typeof arg;
+	
+				if (argType === 'string' || argType === 'number') {
+					classes += ' ' + arg;
+				} else if (Array.isArray(arg)) {
+					classes += ' ' + classNames.apply(null, arg);
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes += ' ' + key;
+						}
+					}
+				}
+			}
+	
+			return classes.substr(1);
+		}
+	
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(175);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(177)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/sass-loader/index.js!./app.scss", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/sass-loader/index.js!./app.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(176)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".ui.link.cards .ui.card.pokemon-card:hover {\n  border: 1px solid blue; }\n\n.pokemon-card.ui.card.active {\n  border: 2px solid blue; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 176 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+	
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+	
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0;
+	
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+	
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+	
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+	
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+	
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+	
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+	
+	function createStyleElement() {
+		var styleElement = document.createElement("style");
+		var head = getHeadElement();
+		styleElement.type = "text/css";
+		head.appendChild(styleElement);
+		return styleElement;
+	}
+	
+	function createLinkElement() {
+		var linkElement = document.createElement("link");
+		var head = getHeadElement();
+		linkElement.rel = "stylesheet";
+		head.appendChild(linkElement);
+		return linkElement;
+	}
+	
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+	
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement());
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement();
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement();
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+			};
+		}
+	
+		update(obj);
+	
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+	
+	var replaceText = (function () {
+		var textStore = [];
+	
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+	
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+	
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+	
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+	
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+	
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+	
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+	
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+	
+		var blob = new Blob([css], { type: "text/css" });
+	
+		var oldSrc = linkElement.href;
+	
+		linkElement.href = URL.createObjectURL(blob);
+	
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
 
 
 /***/ }

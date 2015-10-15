@@ -4,20 +4,35 @@ import PokemonCard from './pokemon-card.jsx';
 class PokemonList extends React.Component {
   constructor() {
     super();
-    this.state = { spriteIds: [] };
+    this.state = { pokemons: [] };
   }
 
   componentWillMount() {
-    this.setState({ spriteIds: makeRandomArr(6) });
+    let pokemons = makeRandomArr(6).map(spriteId => {
+      return { isSelected: false, spriteId };
+    });
+    this.setState({ pokemons });
+  }
+
+  selectPokemon(selectedPokemon) {
+    let pokemons = this.state.pokemons.map(pokemon => {
+      return {
+        spriteId: pokemon.spriteId,
+        isSelected: pokemon.spriteId === selectedPokemon.spriteId ? true : false
+      };
+    });
+
+    this.setState({ pokemons });
+    this.props.selectPokemon(selectedPokemon);
   }
 
   render() {
     let pokemonCards = null;
 
-    if (this.state.spriteIds.length) {
-      pokemonCards = this.state.spriteIds.map((spriteId, index) => {
+    if (this.state.pokemons.length) {
+      pokemonCards = this.state.pokemons.map((pokemon, index) => {
         return (
-          <PokemonCard key={index} spriteId={spriteId} />
+          <PokemonCard key={index} pokemon={pokemon} selectPokemon={this.selectPokemon.bind(this)} />
         )
       });
     }
