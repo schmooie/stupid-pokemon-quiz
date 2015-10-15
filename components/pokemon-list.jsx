@@ -50,7 +50,13 @@ function makeRandomArr(num, min = 1, max = 151) {
 
   while (res.length < num) {
     let rand = Math.random() * (max - min) + min;
-    let found = res.some((n, index, arr) => arr.indexOf(rand) > -1)
+    let found = false;
+
+    for (let i = 0; i < res.length; i++) {
+      if (res.indexOf(rand) > -1) {
+        found = true;
+      }
+    }
 
     if (!found) {
       res[res.length] = Math.floor(rand);

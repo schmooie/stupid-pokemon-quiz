@@ -19749,19 +19749,19 @@
 	
 	  var res = [];
 	
-	  var _loop = function () {
+	  while (res.length < num) {
 	    var rand = Math.random() * (max - min) + min;
-	    var found = res.some(function (n, index, arr) {
-	      return arr.indexOf(rand) > -1;
-	    });
+	    var found = false;
+	
+	    for (var i = 0; i < res.length; i++) {
+	      if (res.indexOf(rand) > -1) {
+	        found = true;
+	      }
+	    }
 	
 	    if (!found) {
 	      res[res.length] = Math.floor(rand);
 	    }
-	  };
-	
-	  while (res.length < num) {
-	    _loop();
 	  }
 	
 	  return res;
@@ -20872,7 +20872,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".ui.link.cards .ui.card.pokemon-card:hover {\n  border: 1px solid blue; }\n\n.pokemon-card.ui.card.active {\n  border: 2px solid blue; }\n", ""]);
+	exports.push([module.id, ".ui.link.cards .ui.card.pokemon-card:hover {\n  border: 1px solid blue; }\n  .ui.link.cards .ui.card.pokemon-card:hover.active {\n    border-width: 2px; }\n\n.pokemon-card.ui.card.active {\n  border: 2px solid blue; }\n", ""]);
 	
 	// exports
 
