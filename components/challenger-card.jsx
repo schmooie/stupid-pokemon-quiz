@@ -8,12 +8,10 @@ class ChallengerCard extends React.Component {
 
   render() {
     return (
-      <div className="ui card">
-        <div className="image">
-          <img src="/images/MissingNo..png"/>
-        </div>
-        <div className="content">
-          <div className="header">MISSINGNO.</div>
+      <div className="challenger-card card">
+        <img className="card-img-top" src="/images/MissingNo..png"/>
+        <div className="card-block">
+          <div className="card-title">MISSINGNO.</div>
         </div>
       </div>
     )

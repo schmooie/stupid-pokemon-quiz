@@ -1,5 +1,6 @@
 import React from 'react';
 import ChallengerCard from './challenger-card.jsx';
+import { chunkArr } from '../utilities.js';
 
 class ChallengerList extends React.Component {
   constructor() {
@@ -11,15 +12,24 @@ class ChallengerList extends React.Component {
     let challengerCards = null;
 
     if (this.state.challengers.length) {
-      challengerCards = this.state.challengers.map((challenger, index) => {
+      let challengerRows = chunkArr(this.state.challengers, 2);
+
+      challengerCards = challengerRows.map((row, index) => {
         return (
-          <ChallengerCard key={index} />
+          <div className="row" key={index}>
+            <div className="col-xs-6">
+              <ChallengerCard />
+            </div>
+            <div className="col-xs-6">
+              <ChallengerCard />
+            </div>
+          </div>
         )
       });
     }
 
     return (
-      <div className="ui grid three columns stackable link cards">
+      <div className="challenger-list">
         {challengerCards}
       </div>
     )

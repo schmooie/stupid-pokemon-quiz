@@ -1,5 +1,6 @@
 import React from 'react';
 import PokemonCard from './pokemon-card.jsx';
+import { chunkArr, makeRandomArr } from '../utilities.js';
 
 class PokemonList extends React.Component {
   constructor() {
@@ -14,7 +15,7 @@ class PokemonList extends React.Component {
     this.setState({ pokemons });
   }
 
-  selectPokemon(selectedPokemon) {
+  selectPokemon(selectedPokemon, pokemonData) {
     let pokemons = this.state.pokemons.map(pokemon => {
       return {
         spriteId: pokemon.spriteId,
@@ -23,47 +24,35 @@ class PokemonList extends React.Component {
     });
 
     this.setState({ pokemons });
-    this.props.selectPokemon(selectedPokemon);
+    this.props.selectPokemon(pokemonData);
   }
 
   render() {
     let pokemonCards = null;
 
     if (this.state.pokemons.length) {
-      pokemonCards = this.state.pokemons.map((pokemon, index) => {
+      let pokemonRows = chunkArr(this.state.pokemons, 2);
+
+      pokemonCards = pokemonRows.map((row, index) => {
         return (
-          <PokemonCard key={index} pokemon={pokemon} selectPokemon={this.selectPokemon.bind(this)} />
+          <div className="row" key={index}>
+            <div className="col-xs-6">
+              <PokemonCard pokemon={row[0]} selectPokemon={this.selectPokemon.bind(this)} />
+            </div>
+            <div className="col-xs-6">
+              <PokemonCard pokemon={row[1]} selectPokemon={this.selectPokemon.bind(this)} />
+            </div>
+          </div>
         )
       });
     }
 
     return (
-      <div className="ui grid three columns stackable link cards">
+      <div className="pokemon-list">
         {pokemonCards}
       </div>
     )
   }
-}
-
-function makeRandomArr(num, min = 1, max = 151) {
-  let res = [];
-
-  while (res.length < num) {
-    let rand = Math.random() * (max - min) + min;
-    let found = false;
-
-    for (let i = 0; i < res.length; i++) {
-      if (res.indexOf(rand) > -1) {
-        found = true;
-      }
-    }
-
-    if (!found) {
-      res[res.length] = Math.floor(rand);
-    }
-  }
-
-  return res;
 }
 
 export default PokemonList;

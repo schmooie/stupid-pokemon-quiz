@@ -30,19 +30,17 @@ class PokemonCard extends React.Component {
   onClick(e) {
     e.preventDefault();
 
-    this.props.selectPokemon(this.props.pokemon);
+    this.props.selectPokemon(this.props.pokemon, this.state.pokemon);
   }
 
   render() {
-    let classes = classNames('pokemon-card ui card', { active: this.props.pokemon.isSelected });
+    let classes = classNames('pokemon-card card text-center', { active: this.props.pokemon.isSelected });
 
     return (
       <div className={classes} onClick={this.onClick.bind(this)}>
-        <div className="image">
-          <img src={this.state.imageUrl}/>
-        </div>
-        <div className="content">
-          <div className="header">{this.state.pokemon.name}</div>
+        <img className="card-img-top" src={this.state.imageUrl}/>
+        <div className="card-block">
+          <div className="card-title">{this.state.pokemon.name}</div>
         </div>
       </div>
     )

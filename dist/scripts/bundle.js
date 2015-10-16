@@ -90,25 +90,46 @@
 	      this.setState({ currentPokemon: pokemon });
 	    }
 	  }, {
+	    key: 'onBattleClick',
+	    value: function onBattleClick(e) {
+	      e.preventDefault();
+	
+	      var currentPokemon = this.state.currentPokemon;
+	
+	      if (currentPokemon) {
+	        console.log('battling with', currentPokemon.name);
+	      } else {
+	        // error handling
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var selectPokemon = this.selectPokemon.bind(this);
 	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui grid container' },
+	        { className: 'container' },
 	        _react2['default'].createElement(
 	          'div',
 	          { className: 'row' },
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'six wide column' },
+	            { className: 'col-lg-5' },
 	            _react2['default'].createElement(_componentsPokemonListJsx2['default'], { selectPokemon: selectPokemon })
 	          ),
-	          _react2['default'].createElement('div', { className: 'four wide column' }),
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'six wide column' },
+	            { className: 'col-lg-2' },
+	            _react2['default'].createElement(
+	              'button',
+	              { className: 'btn btn-secondary', onClick: this.onBattleClick.bind(this) },
+	              'Battle'
+	            )
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            { className: 'col-lg-5' },
 	            _react2['default'].createElement(_componentsChallengerListJsx2['default'], null)
 	          )
 	        )
@@ -19682,7 +19703,7 @@
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var _get = function get(_x3, _x4, _x5) { var _again = true; _function: while (_again) { var object = _x3, property = _x4, receiver = _x5; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x3 = parent; _x4 = property; _x5 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -19698,6 +19719,8 @@
 	
 	var _pokemonCardJsx2 = _interopRequireDefault(_pokemonCardJsx);
 	
+	var _utilitiesJs = __webpack_require__(181);
+	
 	var PokemonList = (function (_React$Component) {
 	  _inherits(PokemonList, _React$Component);
 	
@@ -19711,14 +19734,14 @@
 	  _createClass(PokemonList, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      var pokemons = makeRandomArr(6).map(function (spriteId) {
+	      var pokemons = (0, _utilitiesJs.makeRandomArr)(6).map(function (spriteId) {
 	        return { isSelected: false, spriteId: spriteId };
 	      });
 	      this.setState({ pokemons: pokemons });
 	    }
 	  }, {
 	    key: 'selectPokemon',
-	    value: function selectPokemon(selectedPokemon) {
+	    value: function selectPokemon(selectedPokemon, pokemonData) {
 	      var pokemons = this.state.pokemons.map(function (pokemon) {
 	        return {
 	          spriteId: pokemon.spriteId,
@@ -19727,7 +19750,7 @@
 	      });
 	
 	      this.setState({ pokemons: pokemons });
-	      this.props.selectPokemon(selectedPokemon);
+	      this.props.selectPokemon(pokemonData);
 	    }
 	  }, {
 	    key: 'render',
@@ -19737,14 +19760,29 @@
 	      var pokemonCards = null;
 	
 	      if (this.state.pokemons.length) {
-	        pokemonCards = this.state.pokemons.map(function (pokemon, index) {
-	          return _react2['default'].createElement(_pokemonCardJsx2['default'], { key: index, pokemon: pokemon, selectPokemon: _this.selectPokemon.bind(_this) });
+	        var pokemonRows = (0, _utilitiesJs.chunkArr)(this.state.pokemons, 2);
+	
+	        pokemonCards = pokemonRows.map(function (row, index) {
+	          return _react2['default'].createElement(
+	            'div',
+	            { className: 'row', key: index },
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'col-xs-6' },
+	              _react2['default'].createElement(_pokemonCardJsx2['default'], { pokemon: row[0], selectPokemon: _this.selectPokemon.bind(_this) })
+	            ),
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'col-xs-6' },
+	              _react2['default'].createElement(_pokemonCardJsx2['default'], { pokemon: row[1], selectPokemon: _this.selectPokemon.bind(_this) })
+	            )
+	          );
 	        });
 	      }
 	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui grid three columns stackable link cards' },
+	        { className: 'pokemon-list' },
 	        pokemonCards
 	      );
 	    }
@@ -19752,30 +19790,6 @@
 	
 	  return PokemonList;
 	})(_react2['default'].Component);
-	
-	function makeRandomArr(num) {
-	  var min = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
-	  var max = arguments.length <= 2 || arguments[2] === undefined ? 151 : arguments[2];
-	
-	  var res = [];
-	
-	  while (res.length < num) {
-	    var rand = Math.random() * (max - min) + min;
-	    var found = false;
-	
-	    for (var i = 0; i < res.length; i++) {
-	      if (res.indexOf(rand) > -1) {
-	        found = true;
-	      }
-	    }
-	
-	    if (!found) {
-	      res[res.length] = Math.floor(rand);
-	    }
-	  }
-	
-	  return res;
-	}
 	
 	exports['default'] = PokemonList;
 	module.exports = exports['default'];
@@ -19847,27 +19861,23 @@
 	    value: function onClick(e) {
 	      e.preventDefault();
 	
-	      this.props.selectPokemon(this.props.pokemon);
+	      this.props.selectPokemon(this.props.pokemon, this.state.pokemon);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var classes = (0, _classnames2['default'])('pokemon-card ui card', { active: this.props.pokemon.isSelected });
+	      var classes = (0, _classnames2['default'])('pokemon-card card text-center', { active: this.props.pokemon.isSelected });
 	
 	      return _react2['default'].createElement(
 	        'div',
 	        { className: classes, onClick: this.onClick.bind(this) },
+	        _react2['default'].createElement('img', { className: 'card-img-top', src: this.state.imageUrl }),
 	        _react2['default'].createElement(
 	          'div',
-	          { className: 'image' },
-	          _react2['default'].createElement('img', { src: this.state.imageUrl })
-	        ),
-	        _react2['default'].createElement(
-	          'div',
-	          { className: 'content' },
+	          { className: 'card-block' },
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'header' },
+	            { className: 'card-title' },
 	            this.state.pokemon.name
 	          )
 	        )
@@ -20875,6 +20885,8 @@
 	
 	var _challengerCardJsx2 = _interopRequireDefault(_challengerCardJsx);
 	
+	var _utilitiesJs = __webpack_require__(181);
+	
 	var ChallengerList = (function (_React$Component) {
 	  _inherits(ChallengerList, _React$Component);
 	
@@ -20891,14 +20903,29 @@
 	      var challengerCards = null;
 	
 	      if (this.state.challengers.length) {
-	        challengerCards = this.state.challengers.map(function (challenger, index) {
-	          return _react2['default'].createElement(_challengerCardJsx2['default'], { key: index });
+	        var challengerRows = (0, _utilitiesJs.chunkArr)(this.state.challengers, 2);
+	
+	        challengerCards = challengerRows.map(function (row, index) {
+	          return _react2['default'].createElement(
+	            'div',
+	            { className: 'row', key: index },
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'col-xs-6' },
+	              _react2['default'].createElement(_challengerCardJsx2['default'], null)
+	            ),
+	            _react2['default'].createElement(
+	              'div',
+	              { className: 'col-xs-6' },
+	              _react2['default'].createElement(_challengerCardJsx2['default'], null)
+	            )
+	          );
 	        });
 	      }
 	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui grid three columns stackable link cards' },
+	        { className: 'challenger-list' },
 	        challengerCards
 	      );
 	    }
@@ -20949,18 +20976,14 @@
 	    value: function render() {
 	      return _react2["default"].createElement(
 	        "div",
-	        { className: "ui card" },
+	        { className: "challenger-card card" },
+	        _react2["default"].createElement("img", { className: "card-img-top", src: "/images/MissingNo..png" }),
 	        _react2["default"].createElement(
 	          "div",
-	          { className: "image" },
-	          _react2["default"].createElement("img", { src: "/images/MissingNo..png" })
-	        ),
-	        _react2["default"].createElement(
-	          "div",
-	          { className: "content" },
+	          { className: "card-block" },
 	          _react2["default"].createElement(
 	            "div",
-	            { className: "header" },
+	            { className: "card-title" },
 	            "MISSINGNO."
 	          )
 	        )
@@ -21009,7 +21032,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".ui.card > .content > .header:not(.ui), .ui.cards > .card > .content > .header:not(.ui) {\n  font-size: 1.1em; }\n\n.ui.link.cards .ui.card.pokemon-card:hover {\n  border: 1px solid blue; }\n  .ui.link.cards .ui.card.pokemon-card:hover.active {\n    border-width: 2px; }\n\n.pokemon-card.ui.card.active {\n  border: 2px solid blue; }\n", ""]);
+	exports.push([module.id, "img.card-img-top {\n  width: 75%; }\n\n.pokemon-card:hover {\n  border: 1px solid blue; }\n  .pokemon-card:hover.active {\n    border-width: 2px; }\n\n.pokemon-card.card.active {\n  border: 2px solid blue; }\n", ""]);
 	
 	// exports
 
@@ -21294,6 +21317,53 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 180 */,
+/* 181 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.chunkArr = chunkArr;
+	exports.makeRandomArr = makeRandomArr;
+	
+	function chunkArr(arr, chunk) {
+	  var res = [];
+	
+	  for (var i = 0, j = arr.length; i < j; i += chunk) {
+	    res.push(arr.slice(i, i + chunk));
+	  }
+	
+	  return res;
+	}
+	
+	function makeRandomArr(num) {
+	  var min = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+	  var max = arguments.length <= 2 || arguments[2] === undefined ? 151 : arguments[2];
+	
+	  var res = [];
+	
+	  while (res.length < num) {
+	    var rand = Math.random() * (max - min) + min;
+	    var found = false;
+	
+	    for (var i = 0; i < res.length; i++) {
+	      if (res.indexOf(rand) > -1) {
+	        found = true;
+	      }
+	    }
+	
+	    if (!found) {
+	      res[res.length] = Math.floor(rand);
+	    }
+	  }
+	
+	  return res;
+	}
 
 /***/ }
 /******/ ]);

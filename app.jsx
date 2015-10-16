@@ -14,19 +14,33 @@ class App extends React.Component {
     this.setState({ currentPokemon: pokemon });
   }
 
+  onBattleClick(e) {
+    e.preventDefault();
+
+    let currentPokemon = this.state.currentPokemon;
+
+    if (currentPokemon) {
+      console.log('battling with', currentPokemon.name);
+    } else {
+      // error handling
+    }
+  }
+
   render() {
     let selectPokemon = this.selectPokemon.bind(this);
 
     return (
-      <div className="ui grid container">
+      <div className="container">
         <div className="row">
-          <div className="six wide column">
+          <div className="col-lg-5">
             <PokemonList selectPokemon={selectPokemon} />
           </div>
 
-          <div className="four wide column"></div>
+          <div className="col-lg-2">
+            <button className="btn btn-secondary" onClick={this.onBattleClick.bind(this)}>Battle</button>
+          </div>
 
-          <div className="six wide column">
+          <div className="col-lg-5">
             <ChallengerList />
           </div>
         </div>
