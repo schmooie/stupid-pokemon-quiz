@@ -10,10 +10,10 @@ class ChallengerCard extends React.Component {
     return (
       <div className="ui card">
         <div className="image">
-          <img src="http://lorempixel.com/200/200"/>
+          <img src="/images/MissingNo..png"/>
         </div>
         <div className="content">
-          <div className="header">MISSINGNO?</div>
+          <div className="header">MISSINGNO.</div>
         </div>
       </div>
     )

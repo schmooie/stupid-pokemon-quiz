@@ -18,12 +18,15 @@ class App extends React.Component {
     let selectPokemon = this.selectPokemon.bind(this);
 
     return (
-      <div className="ui padded grid">
-        <div className="two column row">
-          <div className="column">
+      <div className="ui grid container">
+        <div className="row">
+          <div className="six wide column">
             <PokemonList selectPokemon={selectPokemon} />
           </div>
-          <div className="column">
+
+          <div className="four wide column"></div>
+
+          <div className="six wide column">
             <ChallengerList />
           </div>
         </div>

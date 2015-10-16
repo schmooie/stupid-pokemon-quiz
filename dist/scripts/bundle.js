@@ -68,11 +68,11 @@
 	
 	var _componentsPokemonListJsx2 = _interopRequireDefault(_componentsPokemonListJsx);
 	
-	var _componentsChallengerListJsx = __webpack_require__(178);
+	var _componentsChallengerListJsx = __webpack_require__(174);
 	
 	var _componentsChallengerListJsx2 = _interopRequireDefault(_componentsChallengerListJsx);
 	
-	__webpack_require__(174);
+	__webpack_require__(176);
 	
 	var App = (function (_React$Component) {
 	  _inherits(App, _React$Component);
@@ -96,18 +96,19 @@
 	
 	      return _react2['default'].createElement(
 	        'div',
-	        { className: 'ui padded grid' },
+	        { className: 'ui grid container' },
 	        _react2['default'].createElement(
 	          'div',
-	          { className: 'two column row' },
+	          { className: 'row' },
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'column' },
+	            { className: 'six wide column' },
 	            _react2['default'].createElement(_componentsPokemonListJsx2['default'], { selectPokemon: selectPokemon })
 	          ),
+	          _react2['default'].createElement('div', { className: 'four wide column' }),
 	          _react2['default'].createElement(
 	            'div',
-	            { className: 'column' },
+	            { className: 'six wide column' },
 	            _react2['default'].createElement(_componentsChallengerListJsx2['default'], null)
 	          )
 	        )
@@ -20850,13 +20851,140 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _challengerCardJsx = __webpack_require__(175);
+	
+	var _challengerCardJsx2 = _interopRequireDefault(_challengerCardJsx);
+	
+	var ChallengerList = (function (_React$Component) {
+	  _inherits(ChallengerList, _React$Component);
+	
+	  function ChallengerList() {
+	    _classCallCheck(this, ChallengerList);
+	
+	    _get(Object.getPrototypeOf(ChallengerList.prototype), 'constructor', this).call(this);
+	    this.state = { challengers: [1, 2, 3, 4, 5, 6] };
+	  }
+	
+	  _createClass(ChallengerList, [{
+	    key: 'render',
+	    value: function render() {
+	      var challengerCards = null;
+	
+	      if (this.state.challengers.length) {
+	        challengerCards = this.state.challengers.map(function (challenger, index) {
+	          return _react2['default'].createElement(_challengerCardJsx2['default'], { key: index });
+	        });
+	      }
+	
+	      return _react2['default'].createElement(
+	        'div',
+	        { className: 'ui grid three columns stackable link cards' },
+	        challengerCards
+	      );
+	    }
+	  }]);
+	
+	  return ChallengerList;
+	})(_react2['default'].Component);
+	
+	exports['default'] = ChallengerList;
+	module.exports = exports['default'];
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var ChallengerCard = (function (_React$Component) {
+	  _inherits(ChallengerCard, _React$Component);
+	
+	  function ChallengerCard() {
+	    _classCallCheck(this, ChallengerCard);
+	
+	    _get(Object.getPrototypeOf(ChallengerCard.prototype), "constructor", this).call(this);
+	    this.state = {};
+	  }
+	
+	  _createClass(ChallengerCard, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2["default"].createElement(
+	        "div",
+	        { className: "ui card" },
+	        _react2["default"].createElement(
+	          "div",
+	          { className: "image" },
+	          _react2["default"].createElement("img", { src: "/images/MissingNo..png" })
+	        ),
+	        _react2["default"].createElement(
+	          "div",
+	          { className: "content" },
+	          _react2["default"].createElement(
+	            "div",
+	            { className: "header" },
+	            "MISSINGNO."
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ChallengerCard;
+	})(_react2["default"].Component);
+	
+	exports["default"] = ChallengerCard;
+	module.exports = exports["default"];
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(175);
+	var content = __webpack_require__(177);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(177)(content, {});
+	var update = __webpack_require__(179)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -20873,21 +21001,21 @@
 	}
 
 /***/ },
-/* 175 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(176)();
+	exports = module.exports = __webpack_require__(178)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, ".ui.link.cards .ui.card.pokemon-card:hover {\n  border: 1px solid blue; }\n  .ui.link.cards .ui.card.pokemon-card:hover.active {\n    border-width: 2px; }\n\n.pokemon-card.ui.card.active {\n  border: 2px solid blue; }\n", ""]);
+	exports.push([module.id, ".ui.card > .content > .header:not(.ui), .ui.cards > .card > .content > .header:not(.ui) {\n  font-size: 1.1em; }\n\n.ui.link.cards .ui.card.pokemon-card:hover {\n  border: 1px solid blue; }\n  .ui.link.cards .ui.card.pokemon-card:hover.active {\n    border-width: 2px; }\n\n.pokemon-card.ui.card.active {\n  border: 2px solid blue; }\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 176 */
+/* 178 */
 /***/ function(module, exports) {
 
 	/*
@@ -20943,7 +21071,7 @@
 
 
 /***/ },
-/* 177 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -21166,133 +21294,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _challengerCardJsx = __webpack_require__(179);
-	
-	var _challengerCardJsx2 = _interopRequireDefault(_challengerCardJsx);
-	
-	var ChallengerList = (function (_React$Component) {
-	  _inherits(ChallengerList, _React$Component);
-	
-	  function ChallengerList() {
-	    _classCallCheck(this, ChallengerList);
-	
-	    _get(Object.getPrototypeOf(ChallengerList.prototype), 'constructor', this).call(this);
-	    this.state = { challengers: [1, 2, 3, 4, 5, 6] };
-	  }
-	
-	  _createClass(ChallengerList, [{
-	    key: 'render',
-	    value: function render() {
-	      var challengerCards = null;
-	
-	      if (this.state.challengers.length) {
-	        challengerCards = this.state.challengers.map(function (challenger, index) {
-	          return _react2['default'].createElement(_challengerCardJsx2['default'], { key: index });
-	        });
-	      }
-	
-	      return _react2['default'].createElement(
-	        'div',
-	        { className: 'ui grid three columns stackable link cards' },
-	        challengerCards
-	      );
-	    }
-	  }]);
-	
-	  return ChallengerList;
-	})(_react2['default'].Component);
-	
-	exports['default'] = ChallengerList;
-	module.exports = exports['default'];
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var ChallengerCard = (function (_React$Component) {
-	  _inherits(ChallengerCard, _React$Component);
-	
-	  function ChallengerCard() {
-	    _classCallCheck(this, ChallengerCard);
-	
-	    _get(Object.getPrototypeOf(ChallengerCard.prototype), "constructor", this).call(this);
-	    this.state = {};
-	  }
-	
-	  _createClass(ChallengerCard, [{
-	    key: "render",
-	    value: function render() {
-	      return _react2["default"].createElement(
-	        "div",
-	        { className: "ui card" },
-	        _react2["default"].createElement(
-	          "div",
-	          { className: "image" },
-	          _react2["default"].createElement("img", { src: "http://lorempixel.com/200/200" })
-	        ),
-	        _react2["default"].createElement(
-	          "div",
-	          { className: "content" },
-	          _react2["default"].createElement(
-	            "div",
-	            { className: "header" },
-	            "MISSINGNO?"
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return ChallengerCard;
-	})(_react2["default"].Component);
-	
-	exports["default"] = ChallengerCard;
-	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
